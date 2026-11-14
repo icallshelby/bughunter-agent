@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic Bug Hunter — zkVerify Agent Games (Wildcard)</title>
+<style>
+body{font-family:system-ui,-apple-system,sans-serif;max-width:760px;margin:40px auto;padding:0 20px;line-height:1.6;color:#1a1a1a}
+h1{font-size:1.8em}h2{margin-top:2em;border-bottom:1px solid #ddd;padding-bottom:.3em}
+code{background:#f4f4f4;padding:2px 5px;border-radius:4px}pre{background:#f4f4f4;padding:14px;border-radius:8px;overflow-x:auto}
+a{color:#0b5fff}.tag{color:#555}
+</style>
+</head>
+<body>
+<h1>Agentic Bug Hunter</h1>
+<p class="tag">A security agent that hunts vulnerabilities in smart contracts and protocols — and proves its findings instead of just claiming them.<br>Entry for <strong>zkVerify Agent Games, Wildcard track</strong>.</p>
+
+<h2>The problem</h2>
+<p>AI bug hunting is easy to fake. An agent can flood a programme with plausible-looking findings that waste triagers' time, or hallucinate a vulnerability that doesn't exist. For a hunter, an unproven finding is worthless; for a protocol team, it's noise. What both sides need is a finding that survives being attacked.</p>
+
+<h2>Who it helps</h2>
+<p><strong>Bug-bounty hunters</strong> who want to file findings that hold up under triage, and <strong>protocol teams</strong> who want signal, not volume: every finding this agent files carries machine-checkable evidence and a validator verdict.</p>
+
+<h2>How it works</h2>
+<ol>
+<li><strong>Scope-first.</strong> Never touches a target without an explicit programme and scope.</li>
+<li><strong>Recon.</strong> subfinder, httpx, nuclei, katana, amass, gau and friends map the target.</li>
+<li><strong>Hunt.</strong> An AI brain (Gemini via LiteLLM, Ollama qwen3:4b fallback) reads code and proposes candidates.</li>
+<li><strong>7-Question Gate.</strong> Every candidate must survive seven validation questions.</li>
+<li><strong>Adversarial verifier.</strong> A second, independent reviewer tries to <em>refute</em> each finding. Verdicts: confirmed / needs_validation / rejected.</li>
+<li><strong>Deterministic validators.</strong> <code>verifier/validate-findings.cjs</code> and <code>validate-coverage-ledger.cjs</code> check the report before anything is filed.</li>
+</ol>
+
+<h2>Evidence it works</h2>
+<p>Report <strong>XE-9554</strong>, filed 12 Nov 2026 against the XE Network bounty programme: 2 findings (1 High, 1 Medium claimed), both reproduced in the local harness (4/4 checks PASS) and both passing the deterministic validators. Status: awaiting triage.</p>
+<p><a href="report.json">Redacted sample report (JSON)</a> — full vulnerability mechanics and PoC are withheld until triage (responsible disclosure).</p>
+
+<h2>Live demo</h2>
+<p>The agent's demo API runs locally (Node, zero dependencies):</p>
+<pre>node endpoint/server.cjs 8080
+curl localhost:8080/        # agent card
+curl localhost:8080/health  # liveness
+curl localhost:8080/report  # redacted sample report</pre>
+<p>Machine-readable agent card: <a href="agent-card.json">agent-card.json</a></p>
+
+<h2>zkVerify</h2>
+<p>No zkVerify integration is shipped yet, and none is claimed. Findings are already machine-checkable claims (schema + validator verdicts); making a validator verdict provable on-chain via zkVerify is the natural next step.</p>
+
+<h2>Repo</h2>
+<p><a href="https://github.com/icallshelby/bughunter-agent">github.com/icallshelby/bughunter-agent</a> — skill, verifier, evidence, endpoint, MIT.</p>
+</body>
+</html>
