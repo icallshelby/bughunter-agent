@@ -1,0 +1,5 @@
+name: agentic-bug-hunter
+title: Agentic Bug Hunter
+description: Bug bounty hunting with Agentic Bug Hunter (AwareXone) on BSC-free local Ollama — scope-first recon, hunt, 7-Question Gate validation, and submission-ready reports for HackerOne/Bugcrowd/Intigriti/Immunefi.
+category: Security
+include_in_prompt: false
